@@ -1,0 +1,5 @@
+.tabnav-tabbar {
+  @apply fixed bottom-0 left-0 right-0;
+  @apply bg-white;
+  @apply h-14;
+}

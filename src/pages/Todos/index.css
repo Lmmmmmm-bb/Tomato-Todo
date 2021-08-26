@@ -1,3 +1,15 @@
 .todo-input {
   --font-size: 0.875rem;
 }
+
+.todo-card-info {
+  @apply h-full;
+  @apply flex flex-col justify-center items-center;
+  @apply text-center;
+}
+
+.todo-card-start {
+  @apply h-full py-3;
+  @apply flex flex-col justify-center items-center;
+  @apply text-center;
+}
