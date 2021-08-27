@@ -1,15 +1,47 @@
-.todo-input {
-  --font-size: 0.875rem;
+.todo-add-btn {
+  @apply md:text-base;
+}
+
+.todo-card {
+  @apply mx-5 my-3 md:py-3 shadow-md md:my-6 lg:my-4;
 }
 
 .todo-card-info {
-  @apply h-full;
+  @apply h-full w-full pl-1;
   @apply flex flex-col justify-center items-center;
   @apply text-center;
+}
+
+.card-info-title {
+  @apply text-base whitespace-nowrap md:text-xl;
+}
+
+.todo-card-info div {
+  @apply w-full;
 }
 
 .todo-card-start {
   @apply h-full py-3;
   @apply flex flex-col justify-center items-center;
+  @apply text-center text-sm md:text-lg;
+}
+
+.todo-mask {
+  @apply mx-8 mt-48 md:mx-40 md:mt-56 md:px-6 md:py-2 lg:mx-48 lg:px-10;
   @apply text-center;
+}
+
+.mask-input {
+  --font-size: 0.875rem;
+  @apply px-6 my-4 w-52 md:my-8 md:text-lg md:w-60 lg:w-80;
+  @apply outline-none;
+  @apply border-0 border-b focus:border-blue-300;
+  @apply text-center;
+  @apply transition-all duration-500;
+}
+
+.mask-btn {
+  @apply mx-auto;
+  @apply w-14 md:w-20;
+  @apply md:text-base;
 }

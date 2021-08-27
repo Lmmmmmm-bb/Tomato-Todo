@@ -1,37 +1,16 @@
-import { FC, useState, useEffect } from 'react';
-import {
-  Divider,
-  Button,
-  Space,
-  Input,
-  Card,
-  Grid,
-  Mask,
-  Toast
-} from 'antd-mobile';
+import { FC, useState, useCallback, ChangeEvent } from 'react';
+import { Divider, Button, Space, Card, Grid, Mask, Toast } from 'antd-mobile';
 import { PlusOutlined } from '@ant-design/icons';
+import uuid from 'react-uuid';
 
 import Todo from '../../models/Todo';
-import { getTodos, saveTodos } from '../../utils/storage';
 import randomColor from '../../utils/randomColor';
 import './index.css';
 
 const Todos: FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [value, setValue] = useState('');
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const all = JSON.parse(getTodos() || '[]');
-    setTodos(all);
-  }, []);
-  useEffect(() => {
-    return () => {
-      if (todos.length !== 0) {
-        saveTodos(todos);
-      }
-    };
-  }, [todos]);
+  const [isVisible, setIsVisible] = useState(false);
 
   const handleAddTodoClick = () => {
     const target = value.trim();
@@ -47,35 +26,54 @@ const Todos: FC = () => {
         content: '事项已存在'
       });
     } else {
-      setTodos([{ title: target, countTime: 0 }, ...todos]);
-      setVisible(false);
+      const newTodo: Todo = {
+        uuid: uuid(),
+        title: target,
+        totalTime: 0,
+        todayTime: 180,
+        totalTimes: 0,
+        todayTimes: 0,
+        themeClass: randomColor()
+      };
+      setTodos([newTodo, ...todos]);
+      setIsVisible(false);
       setValue('');
     }
   };
   const handleTodoRoutePath = (todo: Todo) => {
     console.log(todo);
   };
+  const handleMaskClosed = useCallback(() => {
+    setValue('');
+  }, []);
+  const toggleVisible = () => setIsVisible(!isVisible);
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
+    []
+  );
 
   return (
     <div>
       <div className='mt-6'>
         <Divider contentPosition='right'>
-          <Button size='mini' onClick={() => setVisible(true)}>
+          <Button className='todo-add-btn' size='mini' onClick={toggleVisible}>
             <Space>
               <PlusOutlined />
-              添加待办
+              添加事项
             </Space>
           </Button>
         </Divider>
       </div>
       <div>
         {todos.map((todo) => (
-          <Card className={`mx-5 my-3 ${randomColor()}`} key={todo.title}>
+          <Card className={`todo-card ${todo.themeClass}`} key={todo.title}>
             <Grid columns={3} gap={8}>
               <Grid.Item>
                 <div className='todo-card-info'>
-                  <div>{todo.title}</div>
-                  <div>{todo.countTime} 分钟</div>
+                  <div className='card-info-title'>{todo.title}</div>
+                  <div className='text-xs md:text-sm'>
+                    已进行 {todo.todayTime} 分钟
+                  </div>
                 </div>
               </Grid.Item>
               <Grid.Item></Grid.Item>
@@ -84,39 +82,41 @@ const Todos: FC = () => {
                   className='todo-card-start'
                   onClick={() => handleTodoRoutePath(todo)}
                 >
-                  开始
+                  开&nbsp;始
                 </div>
               </Grid.Item>
             </Grid>
           </Card>
         ))}
       </div>
-      {visible ? (
-        <Mask
-          visible={visible}
-          onMaskClick={() => setVisible(false)}
-          afterClose={() => setValue('')}
+      <Mask
+        visible={isVisible}
+        onMaskClick={toggleVisible}
+        afterClose={handleMaskClosed}
+      >
+        <Card
+          title={<span className='md:text-xl'>添加事项</span>}
+          className='todo-mask'
         >
-          <Card title='添加事项' className='mx-8 mt-48'>
-            <Input
-              value={value}
-              className='border-b-2 px-5 my-4 todo-input'
-              placeholder='请输入事项名称'
-              onChange={(val) => setValue(val)}
-              autoFocus
-            />
-            <div className='flex'>
-              <Button
-                className='mx-auto'
-                size='mini'
-                onClick={handleAddTodoClick}
-              >
-                添加
-              </Button>
-            </div>
-          </Card>
-        </Mask>
-      ) : null}
+          <input
+            value={value}
+            className='mask-input'
+            placeholder='请输入事项名称'
+            onChange={handleInputChange}
+          />
+          <div className='flex'>
+            <Button
+              className='mask-btn'
+              color='primary'
+              fill='outline'
+              size='mini'
+              onClick={handleAddTodoClick}
+            >
+              添加
+            </Button>
+          </div>
+        </Card>
+      </Mask>
     </div>
   );
 };

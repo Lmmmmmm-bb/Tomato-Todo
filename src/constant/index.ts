@@ -1,3 +1,4 @@
-import { NAV } from './Nav';
+import Nav from './Nav';
+import Theme, { themeColor } from './Theme';
 
-export { NAV };
+export { Nav, Theme, themeColor };

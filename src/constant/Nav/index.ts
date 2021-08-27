@@ -1,5 +1,7 @@
-export enum NAV {
-  TODO = 'Todo',
-  ANALYZE = 'Analyze',
-  PROFILE = 'Profile'
+enum Nav {
+  TODO = 'todos',
+  ANALYZE = 'analyze',
+  PROFILE = 'profile'
 }
+
+export default Nav;

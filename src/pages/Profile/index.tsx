@@ -15,6 +15,9 @@ const Profile: FC = () => {
       <div>Hello Profile Page</div>
       <div>Hello Profile Page</div>
       <div>Hello Profile Page</div>
+      <div>Hello Profile Page</div>
+      <div>Hello Profile Page</div>
+      <div>Hello Profile Page</div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ import Todos from '../pages/Todos';
 import Profile from '../pages/Profile';
 import TabNav, { ITabNavProps } from '../components/TabNav';
 
-import { NAV } from '../constant';
+import { Nav } from '../constant';
 import './index.css';
 
 const App: FC = () => {
@@ -20,17 +20,17 @@ const App: FC = () => {
   const tabProps: ITabNavProps = {
     tabs: [
       {
-        key: NAV.TODO,
+        key: Nav.TODO,
         title: '待办',
         icon: <UnorderedListOutlined />
       },
       {
-        key: NAV.ANALYZE,
+        key: Nav.ANALYZE,
         title: '数据统计',
         icon: <PieChartOutlined />
       },
       {
-        key: NAV.PROFILE,
+        key: Nav.PROFILE,
         title: '我的',
         icon: <UserOutlined />
       }
@@ -42,12 +42,12 @@ const App: FC = () => {
 
   return (
     <div>
-      <div className='mb-14'>
+      <div className='mb-14 md:mb-16'>
         <Switch>
-          <Route exact path='/todos' component={Todos} />
-          <Route exact path='/analyze' component={Analyze} />
-          <Route exact path='/profile' component={Profile} />
-          <Redirect to='/todos' />
+          <Route exact path={`/${Nav.TODO}`} component={Todos} />
+          <Route exact path={`/${Nav.ANALYZE}`} component={Analyze} />
+          <Route exact path={`/${Nav.PROFILE}`} component={Profile} />
+          <Redirect to={`/${Nav.TODO}`} />
         </Switch>
       </div>
       <TabNav {...tabProps} />
