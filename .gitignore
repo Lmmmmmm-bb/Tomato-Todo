@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+# serve dist & dependencies
+/src/server/node_modules
+/src/server/dist
+/src/server/tsconfig.build.tsbuildinfo
+
 # testing
 /coverage
 

@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "craco start",
+    "serve": "cd ./src/server && nest start -w",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
