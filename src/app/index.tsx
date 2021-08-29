@@ -13,6 +13,7 @@ import Profile from '../pages/Profile';
 import TabNav, { ITabNavProps } from '../components/TabNav';
 
 import { Nav } from '../constant';
+import 'nprogress/nprogress.css';
 import './index.css';
 
 const App: FC = () => {

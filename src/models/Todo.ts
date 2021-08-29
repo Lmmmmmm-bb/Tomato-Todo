@@ -1,13 +1,14 @@
 import { Theme } from '../constant';
 
-interface Todo {
+interface ITodo {
   uuid: string;
   title: string;
-  totalTime: number;
-  todayTime: number;
-  totalTimes: number;
-  todayTimes: number;
   themeClass: Theme;
+  totalTime?: number;
+  todayTime?: number;
+  totalTimes?: number;
+  todayTimes?: number;
+  createdAt?: Date;
 }
 
-export default Todo;
+export default ITodo;

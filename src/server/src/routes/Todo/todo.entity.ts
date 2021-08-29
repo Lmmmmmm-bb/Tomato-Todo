@@ -1,4 +1,10 @@
-import { Entity, PrimaryColumn, Column, BaseEntity } from 'typeorm';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  BaseEntity,
+  CreateDateColumn
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -11,6 +17,10 @@ class Todo extends BaseEntity {
   })
   uuid: string;
 
+  @CreateDateColumn({ name: 'create_at', comment: 'Todo created dates.' })
+  @ApiProperty({ description: 'Todo created date.' })
+  createdAt: Date;
+
   @Column({ comment: 'Save this Todo title.' })
   @ApiProperty({
     description: 'Todo title',
@@ -19,48 +29,68 @@ class Todo extends BaseEntity {
   })
   title: string;
 
-  @Column({ default: 0, comment: 'Count total study time.' })
+  @Column({
+    name: 'total_time',
+    default: 0,
+    comment: 'Count total study time.'
+  })
   @ApiProperty({
     description: 'Todo total study time.',
     default: 0
   })
-  total_time: number;
+  totalTime: number;
 
-  @Column({ default: 0, comment: "Count today's study time." })
+  @Column({
+    name: 'today_time',
+    default: 0,
+    comment: "Count today's study time."
+  })
   @ApiProperty({
     description: 'Todo today study time.',
     default: 0
   })
-  today_time: number;
+  todayTime: number;
 
-  @Column({ default: 0, comment: 'Count total study times.' })
+  @Column({
+    name: 'total_count',
+    default: 0,
+    comment: 'Count total study times.'
+  })
   @ApiProperty({
     description: 'Todo total study times.',
     default: 0
   })
-  total_count: number;
+  totalCount: number;
 
-  @Column({ default: 0, comment: "Count today's study times." })
+  @Column({
+    name: 'today_count',
+    default: 0,
+    comment: "Count today's study times."
+  })
   @ApiProperty({
     description: 'Todo today study times.',
     default: 0
   })
-  today_count: number;
+  todayCount: number;
 
-  @Column({ comment: 'Save this Todo theme class name.' })
+  @Column({ name: 'theme_class', comment: 'Save this Todo theme class name.' })
   @ApiProperty({
     description: 'Todo theme class name.',
     required: true,
     example: 'bg-blue-200'
   })
-  theme_class: string;
+  themeClass: string;
 
-  @Column({ default: 0, comment: 'Count the give up times.' })
+  @Column({
+    name: 'give_up_times',
+    default: 0,
+    comment: 'Count the give up times.'
+  })
   @ApiProperty({
     description: 'Todo total give up times.',
     default: 0
   })
-  give_up_times: number;
+  giveUpTimes: number;
 }
 
 export default Todo;

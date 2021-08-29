@@ -1,15 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import Todo from './todo.entity';
 
 export interface ITodo {
   uuid: string;
   title: string;
-  total_time: number;
-  today_time: number;
-  total_count: number;
-  today_count: number;
-  theme_class: string;
-  give_up_times: number;
+  totalTime: number;
+  todayTime: number;
+  totalCount: number;
+  todayCount: number;
+  themeClass: string;
+  giveUpTimes: number;
+  createdAt: Date;
 }
 
 export class CreateTodoRequestBodyDto {
@@ -37,4 +39,12 @@ export class SaveTodoByUUIDRequestBodyDto {
     example: { title: 'expamle' }
   })
   options: { [key in keyof Omit<ITodo, 'uuid'>]?: ITodo[key] };
+}
+
+export class GetTodoByUUIDRequestQueryDto {
+  @ApiProperty({
+    description: 'The Todo UUID properties.',
+    example: '2f8f0d8f-fc5e-4919-bddd-46e55cc41571'
+  })
+  uuid: string;
 }

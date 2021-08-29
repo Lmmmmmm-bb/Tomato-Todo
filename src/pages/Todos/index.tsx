@@ -1,18 +1,32 @@
-import { FC, useState, useCallback, ChangeEvent } from 'react';
+import { FC, useState, useCallback, useEffect, ChangeEvent } from 'react';
 import { Divider, Button, Space, Card, Grid, Mask, Toast } from 'antd-mobile';
 import { PlusOutlined } from '@ant-design/icons';
-import uuid from 'react-uuid';
+import UUID from 'react-uuid';
 
-import Todo from '../../models/Todo';
+import ITodo from '../../models/Todo';
 import randomColor from '../../utils/randomColor';
+import { getRequest, putRequest } from '../../utils/http';
+import { getAllTodos, createTodo } from '../../api/todos.api';
+
 import './index.css';
 
 const Todos: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [value, setValue] = useState('');
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleAddTodoClick = () => {
+  // Fetch Todo list data from database.
+  useEffect(() => {
+    fetchList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchList = useCallback(async () => {
+    const { data: list } = await getRequest(getAllTodos);
+    setTodos(list.data);
+    console.log(list.data);
+  }, []);
+  const handleAddTodoClick = async () => {
     const target = value.trim();
     const index = todos.findIndex((todo) => todo.title === target);
     if (target.length === 0) {
@@ -23,29 +37,24 @@ const Todos: FC = () => {
     } else if (index !== -1) {
       Toast.show({
         icon: 'fail',
-        content: '事项已存在'
+        content: '该事项已存在'
       });
     } else {
-      const newTodo: Todo = {
-        uuid: uuid(),
+      const newTodo: ITodo = {
+        uuid: UUID(),
         title: target,
-        totalTime: 0,
-        todayTime: 180,
-        totalTimes: 0,
-        todayTimes: 0,
         themeClass: randomColor()
       };
-      setTodos([newTodo, ...todos]);
+      await putRequest(createTodo, { todo: newTodo });
+      fetchList();
       setIsVisible(false);
       setValue('');
     }
   };
-  const handleTodoRoutePath = (todo: Todo) => {
+  const handleTodoRoutePath = (todo: ITodo) => {
     console.log(todo);
   };
-  const handleMaskClosed = useCallback(() => {
-    setValue('');
-  }, []);
+  const handleMaskClosed = useCallback(() => setValue(''), []);
   const toggleVisible = () => setIsVisible(!isVisible);
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
@@ -66,7 +75,7 @@ const Todos: FC = () => {
       </div>
       <div>
         {todos.map((todo) => (
-          <Card className={`todo-card ${todo.themeClass}`} key={todo.title}>
+          <Card className={`todo-card ${todo.themeClass}`} key={todo.uuid}>
             <Grid columns={3} gap={8}>
               <Grid.Item>
                 <div className='todo-card-info'>

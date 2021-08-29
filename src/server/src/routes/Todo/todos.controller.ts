@@ -6,13 +6,15 @@ import {
   HttpStatus,
   ParseUUIDPipe,
   Post,
-  Put
+  Put,
+  Query
 } from '@nestjs/common';
 import {
   ApiBody,
   ApiConflictResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags
 } from '@nestjs/swagger';
 
@@ -21,8 +23,10 @@ import {
   ITodo,
   CreateTodoRequestBodyDto,
   DeleteTodoByUUIDRequestBodyDto,
-  SaveTodoByUUIDRequestBodyDto
+  SaveTodoByUUIDRequestBodyDto,
+  GetTodoByUUIDRequestQueryDto
 } from './todos.dto';
+import { TodosControllerDes } from './todos.constant';
 
 @Controller('todos')
 @ApiTags('Todo')
@@ -32,53 +36,79 @@ class TodosController {
   @Get('getAllTodos')
   @ApiOkResponse({
     status: HttpStatus.OK,
-    description: 'Fetch data from database success.'
+    description: TodosControllerDes.getAllTodos.response.ok
   })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Some problems with the database.'
+    description: TodosControllerDes.getAllTodos.response.notFound
   })
   getAllTodos() {
     return this.TodosService.findAllTodos();
   }
 
+  @Get('getTodoByUUID')
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: TodosControllerDes.getTodoByUUID.response.ok
+  })
+  @ApiNotFoundResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: TodosControllerDes.getTodoByUUID.response.notFound
+  })
+  @ApiQuery({
+    type: GetTodoByUUIDRequestQueryDto,
+    description: TodosControllerDes.getTodoByUUID.query
+  })
+  getTodoByUUID(@Query('uuid', new ParseUUIDPipe()) uuid) {
+    return this.TodosService.findTodoByUUID(uuid as string);
+  }
+
   @Put('createTodo')
-  @ApiOkResponse({ status: HttpStatus.OK, description: 'Create Todo success.' })
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: TodosControllerDes.createTodo.response.ok
+  })
   @ApiConflictResponse({
     status: HttpStatus.CONFLICT,
-    description: 'This Todo already exist. Insert to SQL conflict.'
+    description: TodosControllerDes.createTodo.response.conflict
   })
   @ApiBody({
     type: CreateTodoRequestBodyDto,
-    description: 'Create Todo.'
+    description: TodosControllerDes.createTodo.body
   })
   createTodo(@Body('todo') todo: ITodo) {
     return this.TodosService.createTodo(todo);
   }
 
   @Delete('deleteTodoByUUID')
-  @ApiOkResponse({ status: HttpStatus.OK, description: 'Delete Todo success.' })
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: TodosControllerDes.deleteTodoByUUID.response.ok
+  })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'This UUID Todo is not found.'
+    description: TodosControllerDes.deleteTodoByUUID.response.notFound
   })
   @ApiBody({
     type: DeleteTodoByUUIDRequestBodyDto,
-    description: 'Delete the specified todo based on UUID'
+    description: TodosControllerDes.deleteTodoByUUID.body
   })
   deleteTodoByUUID(@Body('uuid', new ParseUUIDPipe()) uuid) {
     return this.TodosService.deleteTodoByUUID(uuid);
   }
 
   @Post('saveTodoByUUID')
-  @ApiOkResponse({ status: HttpStatus.OK, description: 'Edit Todo success.' })
+  @ApiOkResponse({
+    status: HttpStatus.OK,
+    description: TodosControllerDes.saveTodoByUUID.response.ok
+  })
   @ApiNotFoundResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'Edit Todo fail.'
+    description: TodosControllerDes.saveTodoByUUID.response.notFound
   })
   @ApiBody({
     type: SaveTodoByUUIDRequestBodyDto,
-    description: 'Edit Todo By UUID.'
+    description: TodosControllerDes.saveTodoByUUID.body
   })
   saveTodoByUUID(@Body() body: SaveTodoByUUIDRequestBodyDto) {
     const { uuid, options } = body;
