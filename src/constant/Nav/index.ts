@@ -1,7 +1,8 @@
 enum Nav {
   TODO = 'todos',
   ANALYZE = 'analyze',
-  PROFILE = 'profile'
+  PROFILE = 'profile',
+  TIMER = 'timer'
 }
 
 export default Nav;

@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import Todo from './todo.entity';
 import { ITodo } from './todos.dto';
 import { Response } from 'src/models/http';
+import { TodosServiceMsg } from './todos.constant';
 
 @Injectable()
 class TodosService {
@@ -25,7 +26,7 @@ class TodosService {
       });
       return {
         status: HttpStatus.OK,
-        message: 'Get All Todos Success.',
+        message: TodosServiceMsg.findAllTodos,
         data: { data: todosList }
       };
     } catch (err) {
@@ -49,7 +50,7 @@ class TodosService {
       const o = await this.todosRepository.findOne({ uuid });
       return {
         status: HttpStatus.OK,
-        message: 'Find Todo By UUID Success.',
+        message: TodosServiceMsg.findTodoByUUID,
         data: { data: o }
       };
     } catch (err) {
@@ -75,7 +76,7 @@ class TodosService {
 
       return {
         status: HttpStatus.OK,
-        message: 'Create New Todo Success.',
+        message: TodosServiceMsg.createTodo,
         data: { data: newTodo, allTodos }
       };
     } catch (err) {
@@ -94,12 +95,12 @@ class TodosService {
    * @param uuid Todo UUID.
    * @returns Promise With Status.
    */
-  async deleteTodoByUUID(uuid: string): Promise<Response> {
+  async deleteTodoByUUID(uuid: string): Promise<Response<null>> {
     try {
       await this.todosRepository.delete({ uuid });
       return {
         status: HttpStatus.OK,
-        message: 'Delete Todo By UUID is success.'
+        message: TodosServiceMsg.deleteTodoByUUID
       };
     } catch (err) {
       throw new HttpException(
@@ -127,7 +128,7 @@ class TodosService {
       const o = await this.todosRepository.findOne({ uuid });
       return {
         status: HttpStatus.OK,
-        message: 'Save Todo By UUID Success.',
+        message: TodosServiceMsg.saveTodoByUUID,
         data: { data: o }
       };
     } catch (err) {

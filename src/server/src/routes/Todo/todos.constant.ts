@@ -34,3 +34,11 @@ export const TodosControllerDes = {
     }
   }
 };
+
+export const TodosServiceMsg = {
+  findAllTodos: 'Get All Todos Success.',
+  findTodoByUUID: 'Find Todo By UUID Success.',
+  createTodo: 'Create New Todo Success.',
+  deleteTodoByUUID: 'Delete Todo By UUID is Success.',
+  saveTodoByUUID: 'Save Todo By UUID Success.'
+};

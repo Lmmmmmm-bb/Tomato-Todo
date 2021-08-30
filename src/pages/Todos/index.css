@@ -3,7 +3,7 @@
 }
 
 .todo-card {
-  @apply mx-5 my-3 md:py-3 shadow-md md:my-6 lg:my-4;
+  @apply mx-5 my-3 md:py-3 shadow-md md:my-5 lg:my-4;
 }
 
 .todo-card-info {
@@ -13,7 +13,7 @@
 }
 
 .card-info-title {
-  @apply text-base whitespace-nowrap md:text-xl;
+  @apply text-base whitespace-nowrap md:text-2xl;
 }
 
 .todo-card-info div {
@@ -21,7 +21,7 @@
 }
 
 .todo-card-start {
-  @apply h-full py-3;
+  @apply m-auto h-full w-1/2 py-3;
   @apply flex flex-col justify-center items-center;
   @apply text-center text-sm md:text-lg;
 }
@@ -44,4 +44,18 @@
   @apply mx-auto;
   @apply w-14 md:w-20;
   @apply md:text-base;
+}
+
+.card-popover-text {
+  @apply inline-block;
+  @apply text-sm md:text-base text-center;
+}
+
+.card-popover-icon {
+  @apply align-baseline;
+  @apply text-sm text-red-500 md:text-base;
+}
+
+.am-popover-inner-menu-with-icon {
+  min-width: min-content;
 }

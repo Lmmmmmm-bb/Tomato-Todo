@@ -1,6 +1,8 @@
-import { FC, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { FC, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { TabBar } from 'antd-mobile';
+
+import { Nav } from '../../constant';
 
 import './index.css';
 
@@ -10,10 +12,15 @@ export interface ITabNavProps {
 }
 
 const TabNav: FC<ITabNavProps> = (props) => {
-  const router = useHistory();
-  const [activePath, setActivePath] = useState(
-    router.location.pathname.replace('/', '')
-  );
+  const routerLocation = useLocation();
+  const [activePath, setActivePath] = useState('');
+  const [isHidden, setIsHidden] = useState(false);
+  useEffect(() => {
+    const path = routerLocation.pathname.split('/').filter(Boolean);
+    path.includes(Nav.TIMER) ? setIsHidden(true) : setIsHidden(false);
+    setActivePath(path[0]);
+  }, [routerLocation]);
+
   const handlePathChange = (path: string) => {
     setActivePath(path);
     props.onChange(path);
@@ -21,12 +28,12 @@ const TabNav: FC<ITabNavProps> = (props) => {
 
   return (
     <TabBar
-      className='tabnav-tabbar'
+      className={`tabnav-tabbar ${isHidden ? 'hidden' : ''}`}
       activeKey={activePath}
       onChange={handlePathChange}
     >
       {props.tabs.map((item) => (
-        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+        <TabBar.Item {...item} />
       ))}
     </TabBar>
   );

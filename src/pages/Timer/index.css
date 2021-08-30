@@ -1,0 +1,17 @@
+.timer-container {
+  height: calc(100vh - 6rem);
+  @apply flex flex-col justify-evenly items-center;
+}
+
+.timer-container-main {
+  @apply text-center;
+}
+
+.timer-container-main div {
+  @apply p-2;
+}
+
+.timer-container-tool {
+  @apply flex justify-center items-center;
+  @apply text-xl;
+}

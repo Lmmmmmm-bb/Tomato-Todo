@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpStatus,
-  ParseUUIDPipe,
   Post,
   Put,
   Query
@@ -59,7 +58,7 @@ class TodosController {
     type: GetTodoByUUIDRequestQueryDto,
     description: TodosControllerDes.getTodoByUUID.query
   })
-  getTodoByUUID(@Query('uuid', new ParseUUIDPipe()) uuid) {
+  getTodoByUUID(@Query('uuid') uuid) {
     return this.TodosService.findTodoByUUID(uuid as string);
   }
 
@@ -93,7 +92,7 @@ class TodosController {
     type: DeleteTodoByUUIDRequestBodyDto,
     description: TodosControllerDes.deleteTodoByUUID.body
   })
-  deleteTodoByUUID(@Body('uuid', new ParseUUIDPipe()) uuid) {
+  deleteTodoByUUID(@Body('uuid') uuid) {
     return this.TodosService.deleteTodoByUUID(uuid);
   }
 

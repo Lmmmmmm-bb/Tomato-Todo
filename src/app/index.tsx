@@ -10,9 +10,10 @@ import {
 import Analyze from '../pages/Analyze';
 import Todos from '../pages/Todos';
 import Profile from '../pages/Profile';
+import Timer from '../pages/Timer';
 import TabNav, { ITabNavProps } from '../components/TabNav';
-
 import { Nav } from '../constant';
+
 import 'nprogress/nprogress.css';
 import './index.css';
 
@@ -36,18 +37,19 @@ const App: FC = () => {
         icon: <UserOutlined />
       }
     ],
-    onChange: (activePath) => {
+    onChange: (activePath: string) => {
       router.replace(`/${activePath}`);
     }
   };
 
   return (
     <div>
-      <div className='mb-14 md:mb-16'>
+      <div className='mb-16'>
         <Switch>
           <Route exact path={`/${Nav.TODO}`} component={Todos} />
           <Route exact path={`/${Nav.ANALYZE}`} component={Analyze} />
           <Route exact path={`/${Nav.PROFILE}`} component={Profile} />
+          <Route exact path={`/${Nav.TIMER}/:uuid`} component={Timer} />
           <Redirect to={`/${Nav.TODO}`} />
         </Switch>
       </div>
