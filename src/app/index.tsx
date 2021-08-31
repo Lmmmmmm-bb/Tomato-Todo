@@ -44,7 +44,7 @@ const App: FC = () => {
 
   return (
     <div>
-      <div className='mb-16'>
+      <div id='container'>
         <Switch>
           <Route exact path={`/${Nav.TODO}`} component={Todos} />
           <Route exact path={`/${Nav.ANALYZE}`} component={Analyze} />

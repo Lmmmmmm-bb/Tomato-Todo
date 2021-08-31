@@ -4,7 +4,7 @@ import { Space } from 'antd-mobile';
 import {
   PauseOutlined,
   CheckOutlined,
-  PlayCircleOutlined
+  CaretRightOutlined
 } from '@ant-design/icons';
 
 import ITodo from '../../models/Todo';
@@ -13,6 +13,8 @@ import { Response } from '../../models/Http';
 import { getRequest, postRequest } from '../../utils/http';
 import { getTodoByUUID, saveTodoByUUID } from '../../api/todos.api';
 import { formatSecondTohhmmss } from '../../utils/formatDate';
+import { randomImage } from '../../utils/random';
+import isMobile from '../../utils/isMobile';
 
 import './index.css';
 
@@ -25,6 +27,8 @@ const Timer: FC = () => {
   const [minute, setMinute] = useState(0);
   const [second, setSecond] = useState(0);
   const [todo, setTodo] = useState<ITodo>({} as ITodo);
+  const [bgImg, setBgImg] = useState('');
+  const [fontColor, setFontColor] = useState('');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -49,6 +53,12 @@ const Timer: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPause]);
   useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    if (isMobile(navigator.userAgent) && screen.height >= 667) {
+      const [bgImg, fontColor] = randomImage();
+      setBgImg(bgImg);
+      setFontColor(fontColor);
+    }
     const fetchTodoData = async () => {
       const {
         data: { data }
@@ -89,10 +99,16 @@ const Timer: FC = () => {
   };
 
   return (
-    <div className={`timer-container ${isHidden ? 'hidden' : ''}`}>
+    <div
+      className={`timer-container ${isHidden ? 'hidden' : ''}`}
+      style={{
+        color: fontColor,
+        backgroundImage: `url(${bgImg})`
+      }}
+    >
       <div className='timer-container-main'>
-        <div className='text-base'>{todo.title}</div>
-        <div className='text-3xl font-medium'>
+        <div className='text-xl md:text-2xl'>{todo.title}</div>
+        <div className='main-time'>
           {padNumberStart(hour)}:{padNumberStart(minute)}:
           {padNumberStart(second)}
         </div>
@@ -100,18 +116,15 @@ const Timer: FC = () => {
       <div className='timer-container-tool'>
         <Space size='10rem'>
           {isPause ? (
-            <PlayCircleOutlined
-              className='outline-none'
+            <CaretRightOutlined
+              className='tool-icon'
               onClick={handlePauseClick}
             />
           ) : (
-            <PauseOutlined
-              className='outline-none'
-              onClick={handlePauseClick}
-            />
+            <PauseOutlined className='tool-icon' onClick={handlePauseClick} />
           )}
 
-          <CheckOutlined className='outline-none' onClick={handleFinishClick} />
+          <CheckOutlined className='tool-icon' onClick={handleFinishClick} />
         </Space>
       </div>
     </div>

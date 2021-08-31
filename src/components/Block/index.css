@@ -1,0 +1,21 @@
+.block-card {
+  @apply px-3 md:px-6 py-1 mx-4 my-3;
+  @apply bg-gray-300;
+  @apply shadow-md;
+}
+
+.block-card .card-container {
+  @apply flex flex-1 flex-col;
+}
+
+.block-card-label {
+  @apply text-xs md:text-lg;
+}
+
+.block-card-number {
+  @apply text-base md:text-3xl font-medium;
+}
+
+.block-card-font {
+  @apply text-xs font-normal;
+}

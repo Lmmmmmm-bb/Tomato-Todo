@@ -16,7 +16,7 @@ import UUID from 'react-uuid';
 import { Nav } from '../../constant';
 import ITodo from '../../models/Todo';
 import { Response } from '../../models/Http';
-import randomColor from '../../utils/randomColor';
+import { randomColor } from '../../utils/random';
 import { getRequest, putRequest, deleteRequest } from '../../utils/http';
 import { getAllTodos, createTodo, deleteTodoByUUID } from '../../api/todos.api';
 import { formatSecondToMinute } from '../../utils/formatDate';
@@ -99,9 +99,11 @@ const Todos: FC = () => {
               <Grid.Item>
                 <div className='todo-card-info'>
                   <div className='card-info-title'>{todo.title}</div>
-                  <div className='text-xs md:text-sm'>
-                    已进行 {formatSecondToMinute(todo.todayTime)} 分钟
-                  </div>
+                  {formatSecondToMinute(todo.todayTime) !== 0 && (
+                    <div className='text-xs md:text-sm'>
+                      已进行 {formatSecondToMinute(todo.todayTime)} 分钟
+                    </div>
+                  )}
                 </div>
               </Grid.Item>
               <Grid.Item>

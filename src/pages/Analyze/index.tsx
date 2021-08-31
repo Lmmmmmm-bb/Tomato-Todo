@@ -18,8 +18,24 @@ const Analyze: FC = () => {
         </Divider>
       </div>
       <div>
-        <Block />
-        <Block />
+        <Block
+          title='累计数据'
+          leftLabel='总次数'
+          centerLabel='总时长'
+          rightLabel='总平均时长'
+          count={3}
+          totalTime={1202}
+          avgTime={234}
+        />
+        <Block
+          title='今日数据'
+          leftLabel='次数'
+          centerLabel='时长'
+          rightLabel='平均时长'
+          count={2}
+          totalTime={0}
+          avgTime={23234}
+        />
       </div>
     </div>
   );

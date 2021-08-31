@@ -1,0 +1,7 @@
+:root {
+  --container-height: calc(100vh - 6rem);
+}
+
+#container {
+  height: calc(100vh - 6rem);
+}
